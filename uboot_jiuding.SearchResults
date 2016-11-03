@@ -1,0 +1,5 @@
+---- mmcsd_boot Matches (4 in 1 files) ----
+start.S (uboot\cpu\s5pc11x):	beq     mmcsd_boot
+start.S (uboot\cpu\s5pc11x):	beq     mmcsd_boot
+start.S (uboot\cpu\s5pc11x):	beq     mmcsd_boot
+start.S (uboot\cpu\s5pc11x):mmcsd_boot:

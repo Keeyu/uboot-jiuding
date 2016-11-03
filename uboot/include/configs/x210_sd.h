@@ -37,17 +37,17 @@
  * High Level Configuration Options
  * (easy to change)
  */
-#define CONFIG_MPAD		1		//lxg added
-#define CONFIG_S5PC110		1		/* in a SAMSUNG S3C6410 SoC */
-#define CONFIG_S5PC11X		1		/* in a SAMSUNG S3C64XX Family  */
-#define CONFIG_X210		1
+#define CONFIG_MPAD				1		//lxg added
+#define CONFIG_S5PC110			1		/* in a SAMSUNG S3C6410 SoC */
+#define CONFIG_S5PC11X			1		/* in a SAMSUNG S3C64XX Family  */
+#define CONFIG_X210				1
 
-#define CONFIG_MCP_SINGLE	1
-#define CONFIG_EVT1		1		/* EVT1 */
-//#define CONFIG_SMDKV210_REV02	1	/* Rev 0.2 and PMIC Type is MAX8998 */
+#define CONFIG_MCP_SINGLE		1
+#define CONFIG_EVT1				1		/* EVT1 */
+//#define CONFIG_SMDKV210_REV02	1		/* Rev 0.2 and PMIC Type is MAX8998 */
 
-#define CONFIG_FASTBOOT		1
-//#define CONFIG_FUSED		1		/* Fused chip */
+#define CONFIG_FASTBOOT			1
+//#define CONFIG_FUSED			1		/* Fused chip */
 //#define CONFIG_SECURE_BOOT	1		/* secure booting */
 
 #define CONFIG_SW_WORKAROUND	1		/* Software around */

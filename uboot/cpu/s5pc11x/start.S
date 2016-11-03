@@ -171,25 +171,25 @@ cpu_init_crit:
 #else
 	bl	disable_l2cache
 
-	mov	r0, #0x0	@ 
-	mov	r1, #0x0	@ i	
+	mov	r0, #0x0			@ 
+	mov	r1, #0x0			@ i	
 	mov	r3, #0x0
 	mov	r4, #0x0
 lp1:
-	mov	r2, #0x0	@ j
+	mov	r2, #0x0			@ j
 lp2:	
 	mov	r3, r1, LSL #29		@ r3 = r1(i) <<29
 	mov	r4, r2, LSL #6		@ r4 = r2(j) <<6
 	orr	r4, r4, #0x2		@ r3 = (i<<29)|(j<<6)|(1<<1)
 	orr	r3, r3, r4
-	mov	r0, r3			@ r0 = r3
+	mov	r0, r3				@ r0 = r3
 	bl	CoInvalidateDCacheIndex
-	add	r2, #0x1		@ r2(j)++
-	cmp	r2, #1024		@ r2 < 1024
-	bne	lp2			@ jump to lp2
-	add	r1, #0x1		@ r1(i)++
-	cmp	r1, #8			@ r1(i) < 8
-	bne	lp1			@ jump to lp1
+	add	r2, #0x1			@ r2(j)++
+	cmp	r2, #1024			@ r2 < 1024
+	bne	lp2					@ jump to lp2
+	add	r1, #0x1			@ r1(i)++
+	cmp	r1, #8				@ r1(i) < 8
+	bne	lp1					@ jump to lp1
 
 	bl	set_l2cache_auxctrl
 	
@@ -203,28 +203,28 @@ lp2:
 
 	bl	enable_l2cache
 	
-       /*
-        * Invalidate L1 I/D
-        */
-        mov	r0, #0                  @ set up for MCR
-        mcr	p15, 0, r0, c8, c7, 0   @ invalidate TLBs
-        mcr	p15, 0, r0, c7, c5, 0   @ invalidate icache
+	/*
+	 * Invalidate L1 I/D
+	 */
+	mov	r0, #0                  @ set up for MCR
+	mcr	p15, 0, r0, c8, c7, 0   @ invalidate TLBs
+	mcr	p15, 0, r0, c7, c5, 0   @ invalidate icache
 
-       /*
-        * disable MMU stuff and caches
-        */
-        mrc	p15, 0, r0, c1, c0, 0
-        bic	r0, r0, #0x00002000     @ clear bits 13 (--V-)
-        bic	r0, r0, #0x00000007     @ clear bits 2:0 (-CAM)
-        orr	r0, r0, #0x00000002     @ set bit 1 (--A-) Align
-        orr	r0, r0, #0x00000800     @ set bit 12 (Z---) BTB
-        mcr 	p15, 0, r0, c1, c0, 0
+	/*
+	 * disable MMU stuff and caches
+	 */
+	mrc	p15, 0, r0, c1, c0, 0
+	bic	r0, r0, #0x00002000     @ clear bits 13 (--V-)
+	bic	r0, r0, #0x00000007     @ clear bits 2:0 (-CAM)
+	orr	r0, r0, #0x00000002     @ set bit 1 (--A-) Align
+	orr	r0, r0, #0x00000800     @ set bit 12 (Z---) BTB
+	mcr 	p15, 0, r0, c1, c0, 0
 
 
-        /* Read booting information */
-        ldr	r0, =PRO_ID_BASE
-        ldr	r1, [r0,#OMR_OFFSET]
-        bic	r2, r1, #0xffffffc1
+	/* Read booting information */
+	ldr	r0, =PRO_ID_BASE
+	ldr	r1, [r0,#OMR_OFFSET]
+	bic	r2, r1, #0xffffffc1
 
 #ifdef CONFIG_VOGUES
 	/* PS_HOLD(GPH0_0) set to output high */
@@ -281,32 +281,32 @@ lp2:
 	 * Go setup Memory and board specific bits prior to relocation.
 	 */
 
-	ldr	sp, =0xd0036000 /* end of sram dedicated to u-boot */
+	ldr	sp, =0xd0036000 	/* end of sram dedicated to u-boot */
 	sub	sp, sp, #12	/* set stack */
 	mov	fp, #0
 	
-	bl	lowlevel_init	/* go setup pll,mux,memory */
+	bl	lowlevel_init		/* go setup pll,mux,memory */
 	/* To hold max8698 output before releasing power on switch,
 	 * set PS_HOLD signal to high
 	 */
-	ldr	r0, =0xE010E81C  /* PS_HOLD_CONTROL register */
-	ldr	r1, =0x00005301	 /* PS_HOLD output high	*/
+	ldr	r0, =0xE010E81C  	/* PS_HOLD_CONTROL register */
+	ldr	r1, =0x00005301	 	/* PS_HOLD output high	*/
 	str	r1, [r0]
 
 	/* get ready to call C functions */
 	ldr	sp, _TEXT_PHY_BASE	/* setup temp stack pointer */
 	sub	sp, sp, #12
-	mov	fp, #0			/* no previous frame, so fp=0 */
+	mov	fp, #0				/* no previous frame, so fp=0 */
 
 	/* when we already run in ram, we don't need to relocate U-Boot.
 	 * and actually, memory controller must be configured before U-Boot
 	 * is running in ram.
 	 */
 	ldr	r0, =0xff000fff
-	bic	r1, pc, r0		/* r0 <- current base addr of code */
+	bic	r1, pc, r0			/* r0 <- current base addr of code */
 	ldr	r2, _TEXT_BASE		/* r1 <- original base addr in ram */
-	bic	r2, r2, r0		/* r0 <- current base addr of code */
-	cmp     r1, r2                  /* compare r0, r1                  */
+	bic	r2, r2, r0			/* r0 <- current base addr of code */
+	cmp     r1, r2     		/* compare r0, r1                  */
 	beq     after_copy		/* r0 == r1 then skip flash copy   */
 
 #if defined(CONFIG_EVT1)
@@ -382,28 +382,28 @@ mmu_on:
 #endif
 
 skip_hw_init:
-	/* Set up the stack						    */
+	/* Set up the stack */
 stack_setup:
 #if defined(CONFIG_MEMORY_UPPER_CODE)
 	ldr	sp, =(CFG_UBOOT_BASE + CFG_UBOOT_SIZE - 0x1000)
 #else
-	ldr	r0, _TEXT_BASE		/* upper 128 KiB: relocated uboot   */
-	sub	r0, r0, #CFG_MALLOC_LEN	/* malloc area                      */
-	sub	r0, r0, #CFG_GBL_DATA_SIZE /* bdinfo                        */
+	ldr	r0, _TEXT_BASE				/* upper 128 KiB: relocated uboot   */
+	sub	r0, r0, #CFG_MALLOC_LEN		/* malloc area                      */
+	sub	r0, r0, #CFG_GBL_DATA_SIZE 	/* bdinfo                        */
 #if defined(CONFIG_USE_IRQ)
 	sub	r0, r0, #(CONFIG_STACKSIZE_IRQ+CONFIG_STACKSIZE_FIQ)
 #endif
-	sub	sp, r0, #12		/* leave 3 words for abort-stack    */
+	sub	sp, r0, #12					/* leave 3 words for abort-stack    */
 
 #endif
 
 clear_bss:
-	ldr	r0, _bss_start		/* find start of bss segment        */
-	ldr	r1, _bss_end		/* stop here                        */
-	mov 	r2, #0x00000000		/* clear                            */
+	ldr	r0, _bss_start				/* find start of bss segment        */
+	ldr	r1, _bss_end				/* stop here                        */
+	mov 	r2, #0x00000000			/* clear                            */
 
 clbss_l:
-	str	r2, [r0]		/* clear loop...                    */
+	str	r2, [r0]					/* clear loop...                    */
 	add	r0, r0, #4
 	cmp	r0, r1
 	ble	clbss_l
@@ -425,11 +425,11 @@ _mmu_table_base:
  */
 	.globl copy_from_nand
 copy_from_nand:
-	push	{lr}		/* save return address */
+	push	{lr}			/* save return address */
 
 	mov	r9, r0
 	
-	mov	r9, #0x100		/* Compare about 8KB */
+	mov	r9, #0x100			/* Compare about 8KB */
 	bl	copy_uboot_to_ram
 	tst 	r0, #0x0
 	bne	copy_failed
@@ -445,18 +445,18 @@ copy_from_nand:
 1:	ldr	r3, [r0], #4
 	ldr	r4, [r1], #4
 	teq	r3, r4
-	bne	compare_failed	/* not matched */
+	bne	compare_failed		/* not matched */
 	subs	r9, r9, #4
 	bne	1b
 #endif
-	pop	{pc}		/* all is OK */
+	pop	{pc}				/* all is OK */
 
 copy_failed:
-	nop			/* copy from nand failed */
+	nop						/* copy from nand failed */
 	b	copy_failed
 
 compare_failed:
-	nop			/* compare failed */
+	nop						/* compare failed */
 	b	compare_failed
 
 /*
@@ -481,10 +481,10 @@ phy_last_jump:
 	 * disable MMU stuff
 	 */
 	mrc	p15, 0, r0, c1, c0, 0
-	bic	r0, r0, #0x00002300	/* clear bits 13, 9:8 (--V- --RS) */
-	bic	r0, r0, #0x00000087	/* clear bits 7, 2:0 (B--- -CAM) */
-	orr	r0, r0, #0x00000002	/* set bit 2 (A) Align */
-	orr	r0, r0, #0x00001000	/* set bit 12 (I) I-Cache */
+	bic	r0, r0, #0x00002300		/* clear bits 13, 9:8 (--V- --RS) */
+	bic	r0, r0, #0x00000087		/* clear bits 7, 2:0 (B--- -CAM) */
+	orr	r0, r0, #0x00000002		/* set bit 2 (A) Align */
+	orr	r0, r0, #0x00001000		/* set bit 12 (I) I-Cache */
 	mcr	p15, 0, r0, c1, c0, 0
 
 	mcr	p15, 0, r0, c8, c7, 0	/* flush v4 TLB */
@@ -504,28 +504,28 @@ phy_last_jump:
 @
 #define S_FRAME_SIZE	72
 
-#define S_OLD_R0	68
-#define S_PSR		64
-#define S_PC		60
-#define S_LR		56
-#define S_SP		52
+#define S_OLD_R0		68
+#define S_PSR			64
+#define S_PC			60
+#define S_LR			56
+#define S_SP			52
 
-#define S_IP		48
-#define S_FP		44
-#define S_R10		40
-#define S_R9		36
-#define S_R8		32
-#define S_R7		28
-#define S_R6		24
-#define S_R5		20
-#define S_R4		16
-#define S_R3		12
-#define S_R2		8
-#define S_R1		4
-#define S_R0		0
+#define S_IP			48
+#define S_FP			44
+#define S_R10			40
+#define S_R9			36
+#define S_R8			32
+#define S_R7			28
+#define S_R6			24
+#define S_R5			20
+#define S_R4			16
+#define S_R3			12
+#define S_R2			8
+#define S_R1			4
+#define S_R0			0
 
-#define MODE_SVC 0x13
-#define I_BIT	 0x80
+#define MODE_SVC 		0x13
+#define I_BIT	 		0x80
 
 /*
  * use bad_save_user_regs for abort/prefetch/undef/swi ...
@@ -545,56 +545,56 @@ phy_last_jump:
 	add	r5, sp, #S_SP
 	mov	r1, lr
 	stmia	r5, {r0 - r3}			@ save sp_SVC, lr_SVC, pc, cpsr
-	mov	r0, sp				@ save current stack into r0 (param register)
+	mov	r0, sp						@ save current stack into r0 (param register)
 	.endm
 
 	.macro	irq_save_user_regs
 	sub	sp, sp, #S_FRAME_SIZE
 	stmia	sp, {r0 - r12}			@ Calling r0-r12
-	add	r8, sp, #S_PC			@ !!!! R8 NEEDS to be saved !!!! a reserved stack spot would be good.
+	add	r8, sp, #S_PC				@ !!!! R8 NEEDS to be saved !!!! a reserved stack spot would be good.
 	stmdb	r8, {sp, lr}^			@ Calling SP, LR
-	str	lr, [r8, #0]			@ Save calling PC
-	mrs	r6, spsr
-	str	r6, [r8, #4]			@ Save CPSR
-	str	r0, [r8, #8]			@ Save OLD_R0
+	str	lr, [r8, #0]				@ Save calling PC
+	mrs	r6, spsr	
+	str	r6, [r8, #4]				@ Save CPSR
+	str	r0, [r8, #8]				@ Save OLD_R0
 	mov	r0, sp
 	.endm
 
 	.macro	irq_restore_user_regs
 	ldmia	sp, {r0 - lr}^			@ Calling r0 - lr
 	mov	r0, r0
-	ldr	lr, [sp, #S_PC]			@ Get PC
+	ldr	lr, [sp, #S_PC]				@ Get PC
 	add	sp, sp, #S_FRAME_SIZE
-	subs	pc, lr, #4			@ return & move spsr_svc into cpsr
-	.endm
+	subs	pc, lr, #4				@ return & move spsr_svc into cpsr
+	.endm	
 
 	.macro get_bad_stack
-	ldr	r13, _armboot_start		@ setup our mode stack (enter in banked mode)
+	ldr	r13, _armboot_start			@ setup our mode stack (enter in banked mode)
 	sub	r13, r13, #(CFG_MALLOC_LEN)	@ move past malloc pool
 	sub	r13, r13, #(CFG_GBL_DATA_SIZE+8) @ move to reserved a couple spots for abort stack
 
-	str	lr, [r13]			@ save caller lr in position 0 of saved stack
-	mrs	lr, spsr			@ get the spsr
-	str	lr, [r13, #4]			@ save spsr in position 1 of saved stack
+	str	lr, [r13]					@ save caller lr in position 0 of saved stack
+	mrs	lr, spsr					@ get the spsr
+	str	lr, [r13, #4]				@ save spsr in position 1 of saved stack
 
-	mov	r13, #MODE_SVC			@ prepare SVC-Mode
+	mov	r13, #MODE_SVC				@ prepare SVC-Mode
 	@ msr	spsr_c, r13
-	msr	spsr, r13			@ switch modes, make sure moves will execute
-	mov	lr, pc				@ capture return pc
-	movs	pc, lr				@ jump to next instruction & switch modes.
+	msr	spsr, r13					@ switch modes, make sure moves will execute
+	mov	lr, pc						@ capture return pc
+	movs	pc, lr					@ jump to next instruction & switch modes.
 	.endm
 
 	.macro get_bad_stack_swi
-	sub	r13, r13, #4			@ space on current stack for scratch reg.
-	str	r0, [r13]			@ save R0's value.
-	ldr	r0, _armboot_start		@ get data regions start
+	sub	r13, r13, #4				@ space on current stack for scratch reg.
+	str	r0, [r13]					@ save R0's value.
+	ldr	r0, _armboot_start			@ get data regions start
 	sub	r0, r0, #(CFG_MALLOC_LEN)	@ move past malloc pool
 	sub	r0, r0, #(CFG_GBL_DATA_SIZE+8)	@ move past gbl and a couple spots for abort stack
-	str	lr, [r0]			@ save caller lr in position 0 of saved stack
-	mrs	r0, spsr			@ get the spsr
-	str	lr, [r0, #4]			@ save spsr in position 1 of saved stack
-	ldr	r0, [r13]			@ restore r0
-	add	r13, r13, #4			@ pop stack entry
+	str	lr, [r0]					@ save caller lr in position 0 of saved stack
+	mrs	r0, spsr					@ get the spsr
+	str	lr, [r0, #4]				@ save spsr in position 1 of saved stack
+	ldr	r0, [r13]					@ restore r0
+	add	r13, r13, #4				@ pop stack entry
 	.endm
 
 	.macro get_irq_stack			@ setup IRQ stack
@@ -673,8 +673,8 @@ fiq:
 	.align 5
 .global arm_cache_flush
 arm_cache_flush:
-       mcr     p15, 0, r1, c7, c5, 0           @ invalidate I cache
-       mov     pc, lr                          @ back to caller
+       mcr     p15, 0, r1, c7, c5, 0	@ invalidate I cache
+       mov     pc, lr					@ back to caller
 
 /*
  *     v7_flush_dcache_all()
@@ -690,26 +690,26 @@ arm_cache_flush:
 v7_flush_dcache_all:
 
 	ldr	r0, =0xffffffff
-	mrc	p15, 1, r0, c0, c0, 1 		@ Read CLIDR
+	mrc	p15, 1, r0, c0, c0, 1 			@ Read CLIDR
 	ands	r3, r0, #0x7000000
-	mov	r3, r3, LSR #23       		@ Cache level value (naturally aligned)
+	mov	r3, r3, LSR #23       			@ Cache level value (naturally aligned)
 	beq 	Finished
 	mov	r10, #0
 Loop1:         
-	add	r2, r10, r10, LSR #1  		@ Work out 3xcachelevel
-	mov	r1, r0, LSR r2        		@ bottom 3 bits are the Ctype for this level
-	and	r1, r1, #7            		@ get those 3 bits alone
+	add	r2, r10, r10, LSR #1  			@ Work out 3xcachelevel
+	mov	r1, r0, LSR r2        			@ bottom 3 bits are the Ctype for this level
+	and	r1, r1, #7            			@ get those 3 bits alone
 	cmp	r1, #2
-	blt	Skip                   		@ no cache or only instruction cache at this level
-	mcr	p15, 2, r10, c0, c0, 0 		@ write the Cache Size selection register
+	blt	Skip                   			@ no cache or only instruction cache at this level
+	mcr	p15, 2, r10, c0, c0, 0 			@ write the Cache Size selection register
 	mov	r1, #0
-	mcr	p15, 0, r1, c7, c5, 4 		@ PrefetchFlush to sync the change to the CacheSizeID reg
-	mrc	p15, 1, r1, c0, c0, 0 		@ reads current Cache Size ID register
-	and	r2, r1, #0x7           		@ extract the line length field
-	add	r2, r2, #4            		@ add 4 for the line length offset (log2 16 bytes)
+	mcr	p15, 0, r1, c7, c5, 4 			@ PrefetchFlush to sync the change to the CacheSizeID reg
+	mrc	p15, 1, r1, c0, c0, 0 			@ reads current Cache Size ID register
+	and	r2, r1, #0x7           			@ extract the line length field
+	add	r2, r2, #4            			@ add 4 for the line length offset (log2 16 bytes)
 	ldr	r4, =0x3FF
 	ands	r4, r4, r1, LSR #3   		@ R4 is the max number on the way size (right aligned)
-	clz	r5, r4                		@ R5 is the bit position of the way size increment
+	clz	r5, r4                			@ R5 is the bit position of the way size increment
 	ldr	r7, =0x00007FFF
 	ands	r7, r7, r1, LSR #13  		@ R7 is the max number of the index size (right aligned)
 Loop2:         
@@ -717,7 +717,7 @@ Loop2:
 Loop3:         
 	orr	r11, r10, r9, LSL r5        	@ factor in the way number and cache number into R11
 	orr	r11, r11, r7, LSL r2        	@ factor in the index number
-	mcr	p15, 0, r11, c7, c6, 2 		@ invalidate by set/way
+	mcr	p15, 0, r11, c7, c6, 2 			@ invalidate by set/way
 	subs	r9, r9, #1                 	@ decrement the way number
 	bge	Loop3
 	subs	r7, r7, #1                 	@ decrement the index
@@ -774,7 +774,7 @@ CoInvalidateDCacheIndex:
 #if defined(CONFIG_INTEGRATOR) && defined(CONFIG_ARCH_CINTEGRATOR)
 /* Use the IntegratorCP function from board/integratorcp/platform.S */
 #elif defined(CONFIG_S5PC11X)
-/* For future usage of S3C64XX*/
+/* For future usage of S3C64XX */
 #else
 	.align	5
 .globl reset_cpu

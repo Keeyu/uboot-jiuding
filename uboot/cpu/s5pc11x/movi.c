@@ -40,8 +40,8 @@ void movi_bl2_copy(void)
 #if defined(CONFIG_SECURE_BOOT)
 		/* do security check */
 		rv = Check_Signature( (SecureBoot_CTX *)SECURE_BOOT_CONTEXT_ADDR,
-				      (unsigned char *)CFG_PHY_UBOOT_BASE, (1024*512-128),
-			              (unsigned char *)(CFG_PHY_UBOOT_BASE+(1024*512-128)), 128 );
+				      		(unsigned char *)CFG_PHY_UBOOT_BASE, (1024*512-128),
+			              	(unsigned char *)(CFG_PHY_UBOOT_BASE+(1024*512-128)), 128 );
 		if (rv != 0){
 				while(1);
 			}
