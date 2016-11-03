@@ -8,7 +8,7 @@
 # (C) 2002-2006 DENX Software Engineering, Wolfgang Denk <wd@denx.de>
 #
 
-APPEND=no	# Default: Create new config file
+APPEND=no		# Default: Create new config file
 BOARD_NAME=""	# Name to print in make output
 
 while [ $# -gt 0 ] ; do
@@ -20,12 +20,12 @@ while [ $# -gt 0 ] ; do
 	esac
 done
 
-[ "${BOARD_NAME}" ] || BOARD_NAME="$1"
+[ "${BOARD_NAME}" ] || BOARD_NAME="$1"	# 看是否有值,无值则BOARD_NAME=x210_sd
 
-[ $# -lt 4 ] && exit 1
-[ $# -gt 6 ] && exit 1
+[ $# -lt 4 ] && exit 1					# 若$#小于4,则返回1,执行失败
+[ $# -gt 6 ] && exit 1					# 若$#大于6,则返回1,执行失败
 
-echo "Configuring for ${BOARD_NAME} board..."
+echo "Configuring for ${BOARD_NAME} board..."	# 打印Configuring for x210_sd board...
 
 #
 # Create link to architecture specific headers

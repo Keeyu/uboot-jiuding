@@ -2401,11 +2401,11 @@ at91sam9260ek_config	:	unconfig
 ########################################################################
 ## ARM Integrator boards - see doc/README-integrator for more info.
 integratorap_config	\
-ap_config		\
+ap_config			\
 ap966_config		\
 ap922_config		\
 ap922_XA10_config	\
-ap7_config		\
+ap7_config			\
 ap720t_config		\
 ap920t_config		\
 ap926ejs_config		\
@@ -2413,7 +2413,7 @@ ap946es_config: unconfig
 	@board/integratorap/split_by_variant.sh $@
 
 integratorcp_config	\
-cp_config		\
+cp_config			\
 cp920t_config		\
 cp926ejs_config		\
 cp946es_config		\
@@ -2454,13 +2454,13 @@ omap1510inn_config :	unconfig
 
 xtract_omap1610xxx = $(subst _cs0boot,,$(subst _cs3boot,,$(subst _cs_autoboot,,$(subst _config,,$1))))
 
-omap1610inn_config \
-omap1610inn_cs0boot_config \
-omap1610inn_cs3boot_config \
-omap1610inn_cs_autoboot_config \
-omap1610h2_config \
-omap1610h2_cs0boot_config \
-omap1610h2_cs3boot_config \
+omap1610inn_config 				\
+omap1610inn_cs0boot_config 		\
+omap1610inn_cs3boot_config 		\
+omap1610inn_cs_autoboot_config 	\
+omap1610h2_config 				\
+omap1610h2_cs0boot_config 		\
+omap1610h2_cs3boot_config 		\
 omap1610h2_cs_autoboot_config:	unconfig
 	@mkdir -p $(obj)include
 	@if [ "$(findstring _cs0boot_, $@)" ] ; then \
