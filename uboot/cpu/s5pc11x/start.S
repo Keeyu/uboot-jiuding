@@ -159,10 +159,10 @@ reset:
  *
  *************************************************************************
  */
-         /*
-         * we do sys-critical inits only at reboot,
-         * not when booting from ram!
-         */
+/*
+ * we do sys-critical inits only at reboot,
+ * not when booting from ram!
+ */
 cpu_init_crit:
 
 #ifndef CONFIG_EVT1
@@ -282,7 +282,7 @@ lp2:
 	 */
 
 	ldr	sp, =0xd0036000 	/* end of sram dedicated to u-boot */
-	sub	sp, sp, #12	/* set stack */
+	sub	sp, sp, #12			/* set stack */
 	mov	fp, #0
 	
 	bl	lowlevel_init		/* go setup pll,mux,memory */
@@ -389,7 +389,7 @@ stack_setup:
 #else
 	ldr	r0, _TEXT_BASE				/* upper 128 KiB: relocated uboot   */
 	sub	r0, r0, #CFG_MALLOC_LEN		/* malloc area                      */
-	sub	r0, r0, #CFG_GBL_DATA_SIZE 	/* bdinfo                        */
+	sub	r0, r0, #CFG_GBL_DATA_SIZE 	/* bdinfo                        	*/
 #if defined(CONFIG_USE_IRQ)
 	sub	r0, r0, #(CONFIG_STACKSIZE_IRQ+CONFIG_STACKSIZE_FIQ)
 #endif

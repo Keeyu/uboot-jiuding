@@ -466,9 +466,9 @@ void start_armboot (void)
 #ifdef CONFIG_USE_IRQ
 	gd_base -= (CONFIG_STACKSIZE_IRQ+CONFIG_STACKSIZE_FIQ);
 #endif
-	gd = (gd_t*)gd_base;
+	gd = (gd_t *)gd_base;
 #else
-	gd = (gd_t*)(_armboot_start - CFG_MALLOC_LEN - sizeof(gd_t));
+	gd = (gd_t *)(_armboot_start - CFG_MALLOC_LEN - sizeof(gd_t));
 #endif
 
 	/* compiler optimization barrier needed for GCC >= 3.4 */

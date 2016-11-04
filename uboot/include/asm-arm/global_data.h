@@ -33,25 +33,25 @@
  * Keep it *SMALL* and remember to set CFG_GBL_DATA_SIZE > sizeof(gd_t)
  */
 
-typedef	struct	global_data {
-	bd_t		*bd;
-	unsigned long	flags;
-	unsigned long	baudrate;
+typedef	struct global_data {
+	bd_t			*bd;			/* Develop board data */
+	unsigned long	flags;			/*  */
+	unsigned long	baudrate;		/* serial console baudrate */
 	unsigned long	have_console;	/* serial_init() was called */
-	unsigned long	reloc_off;	/* Relocation Offset */
-	unsigned long	env_addr;	/* Address  of Environment struct */
-	unsigned long	env_valid;	/* Checksum of Environment valid? */
-	unsigned long	fb_base;	/* base address of frame buffer */
+	unsigned long	reloc_off;		/* Relocation Offset */
+	unsigned long	env_addr;		/* Address  of Environment struct */
+	unsigned long	env_valid;		/* Checksum of Environment valid? */
+	unsigned long	fb_base;		/* base address of frame buffer */
 #ifdef CONFIG_VFD
-	unsigned char	vfd_type;	/* display type */
-#endif
+	unsigned char	vfd_type;		/* display type */
+#endif	
 #if 0
-	unsigned long	cpu_clk;	/* CPU clock in Hz!		*/
+	unsigned long	cpu_clk;		/* CPU clock in Hz!		*/
 	unsigned long	bus_clk;
-	phys_size_t	ram_size;	/* RAM size */
+	phys_size_t		ram_size;		/* RAM size */
 	unsigned long	reset_status;	/* reset status register at boot */
 #endif
-	void		**jt;		/* jump table */
+	void			**jt;			/* jump table */
 } gd_t;
 
 /*

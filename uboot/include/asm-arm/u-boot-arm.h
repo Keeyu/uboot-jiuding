@@ -31,8 +31,8 @@
 
 /* for the following variables, see start.S */
 extern ulong _armboot_start;	/* code start */
-extern ulong _bss_start;	/* code + data end == BSS start */
-extern ulong _bss_end;		/* BSS end */
+extern ulong _bss_start;		/* code + data end == BSS start */
+extern ulong _bss_end;			/* BSS end */
 extern ulong IRQ_STACK_START;	/* top of IRQ stack */
 extern ulong FIQ_STACK_START;	/* top of FIQ stack */
 
@@ -43,8 +43,8 @@ int	cleanup_before_linux(void);
 /* board/.../... */
 int	board_init(void);
 int	dram_init (void);
-void	setup_serial_tag (struct tag **params);
-void	setup_revision_tag (struct tag **params);
+void setup_serial_tag (struct tag **params);
+void setup_revision_tag (struct tag **params);
 
 /* ------------------------------------------------------------ */
 /* Here is a list of some prototypes which are incompatible to	*/

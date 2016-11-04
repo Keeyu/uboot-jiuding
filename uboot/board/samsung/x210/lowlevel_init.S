@@ -581,7 +581,7 @@ wait_orwb:
  * 0xE000_0000 -- 0xFFFF_FFFF => A:0xE000_0000 -- 0XFFFF_FFFF
  */
 
-	/* form a first-level section entry */
+/* form a first-level section entry */
 .macro FL_SECTION_ENTRY base,ap,d,c,b
 	.word (\base << 20) | (\ap << 10) | \
 	      (\d << 5) | (1<<4) | (\c << 3) | (\b << 2) | (1<<1)
