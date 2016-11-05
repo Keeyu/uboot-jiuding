@@ -111,8 +111,8 @@ static ulong mem_malloc_brk = 0;
 static void mem_malloc_init (ulong dest_addr)
 {
 	mem_malloc_start = dest_addr;
-	mem_malloc_end = dest_addr + CFG_MALLOC_LEN;
-	mem_malloc_brk = mem_malloc_start;
+	mem_malloc_end   = dest_addr + CFG_MALLOC_LEN;
+	mem_malloc_brk   = mem_malloc_start;
 
 	memset ((void *) mem_malloc_start, 0,
 			mem_malloc_end - mem_malloc_start);
@@ -318,7 +318,7 @@ static int display_banner (void)
 	debug ("IRQ Stack: %08lx\n", IRQ_STACK_START);
 	debug ("FIQ Stack: %08lx\n", FIQ_STACK_START);
 #endif
-	open_backlight();//lqm.
+	open_backlight();	// lqm.
 	//open_gprs();
 
 	return (0);
@@ -413,37 +413,37 @@ typedef int (init_fnc_t) (void);
 
 int print_cpuinfo (void); /* test-only */
 
-init_fnc_t *init_sequence[] = {
-	cpu_init,		/* basic cpu dependent setup */
+init_fnc_t *init_sequence[] = {	
+	cpu_init,					/* basic cpu dependent setup */
 #if defined(CONFIG_SKIP_RELOCATE_UBOOT)
-	reloc_init,		/* Set the relocation done flag, must
-				   do this AFTER cpu_init(), but as soon
-				   as possible */
+	reloc_init,					/* Set the relocation done flag, must
+				   				do this AFTER cpu_init(), but as soon
+				  	 			as possible */
 #endif
-	board_init,		/* basic board dependent setup */
-	interrupt_init,		/* set up exceptions */
-	env_init,		/* initialize environment */
-	init_baudrate,		/* initialze baudrate settings */
-	serial_init,		/* serial communications setup */
-	console_init_f,		/* stage 1 init of console */
-	display_banner,		/* say that we are here */
+	board_init,					/* basic board dependent setup */
+	interrupt_init,				/* set up exceptions */
+	env_init,					/* initialize environment */
+	init_baudrate,				/* initialze baudrate settings */
+	serial_init,				/* serial communications setup */
+	console_init_f,				/* stage 1 init of console */
+	display_banner,				/* say that we are here */
 #if defined(CONFIG_DISPLAY_CPUINFO)
-	print_cpuinfo,		/* display cpu info (and speed) */
+	print_cpuinfo,				/* display cpu info (and speed) */
 #endif
 #if defined(CONFIG_DISPLAY_BOARDINFO)
-	checkboard,		/* display board info */
+	checkboard,					/* display board info */
 #endif
 #if defined(CONFIG_HARD_I2C) || defined(CONFIG_SOFT_I2C)
 	init_func_i2c,
 #endif
-	dram_init,		/* configure available RAM banks */
+	dram_init,					/* configure available RAM banks */
 	display_dram_config,
 	NULL,
 };
 
 void start_armboot (void)
 {
-	init_fnc_t **init_fnc_ptr;
+	init_fnc_t **init_fnc_ptr;	// double function pointer 
 	char *s;
 	int mmc_exist = 0;
 #if !defined(CFG_NO_FLASH) || defined (CONFIG_VFD) || defined(CONFIG_LCD)
@@ -464,7 +464,7 @@ void start_armboot (void)
 
 	gd_base = CFG_UBOOT_BASE + CFG_UBOOT_SIZE - CFG_MALLOC_LEN - CFG_STACK_SIZE - sizeof(gd_t);
 #ifdef CONFIG_USE_IRQ
-	gd_base -= (CONFIG_STACKSIZE_IRQ+CONFIG_STACKSIZE_FIQ);
+	gd_base -= (CONFIG_STACKSIZE_IRQ + CONFIG_STACKSIZE_FIQ);
 #endif
 	gd = (gd_t *)gd_base;
 #else
@@ -474,8 +474,8 @@ void start_armboot (void)
 	/* compiler optimization barrier needed for GCC >= 3.4 */
 	__asm__ __volatile__("": : :"memory");
 
-	memset ((void*)gd, 0, sizeof (gd_t));
-	gd->bd = (bd_t*)((char*)gd - sizeof(bd_t));
+	memset ((void *)gd, 0, sizeof (gd_t));
+	gd->bd = (bd_t *)((char *)gd - sizeof(bd_t));	// Jeffrey: set bd address 
 	memset (gd->bd, 0, sizeof (bd_t));
 
 	monitor_flash_len = _bss_start - _armboot_start;

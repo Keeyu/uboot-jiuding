@@ -89,7 +89,7 @@ int board_init(void)
 	smc9115_pre_init();
 #endif
 
-#ifdef CONFIG_DRIVER_DM9000
+#ifdef CONFIG_DRIVER_DM9000	// NIC initialize
 	dm9000_pre_init();
 #endif
 
@@ -173,7 +173,7 @@ int checkboard(void)
 	printf("\nBoard:   VOGUESV210\n");
 #else
 	printf("\nBoard:   X210\n");
-#endif //CONFIG_VOGUES
+#endif // CONFIG_VOGUES
 #else
 	printf("\nBoard:   X210\n");
 #endif

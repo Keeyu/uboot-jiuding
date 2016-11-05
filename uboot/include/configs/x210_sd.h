@@ -136,7 +136,7 @@
 /*
  * Size of malloc() pool
  */
-#define CFG_MALLOC_LEN		(CFG_ENV_SIZE + 896*1024)
+#define CFG_MALLOC_LEN		(CFG_ENV_SIZE + 896*1024)	/* 912KB */
 #define CFG_GBL_DATA_SIZE	128	/* size in bytes reserved for initial data */
 
 #define CFG_STACK_SIZE		512*1024
@@ -489,40 +489,40 @@
 
 
 #if defined(CONFIG_CLK_533_133_100_100)
-#define UART_UBRDIV_VAL		26
-#define UART_UDIVSLOT_VAL	0x0808
+#define UART_UBRDIV_VAL			26
+#define UART_UDIVSLOT_VAL		0x0808
 #else
-#define UART_UBRDIV_VAL		34
-#define UART_UDIVSLOT_VAL	0xDDDD
+#define UART_UBRDIV_VAL			34
+#define UART_UDIVSLOT_VAL		0xDDDD
 #endif
 
 #define CONFIG_NR_DRAM_BANKS    2          /* we have 2 bank of DRAM */
 #define SDRAM_BANK_SIZE         0x10000000    /* 512 MB lqm*/
-//#define SDRAM_BANK_SIZE         0x20000000    /* 1GB lqm*/
+//#define SDRAM_BANK_SIZE    	0x20000000    /* 1GB lqm*/
 #define PHYS_SDRAM_1            MEMORY_BASE_ADDRESS /* SDRAM Bank #1 */
 #define PHYS_SDRAM_1_SIZE       SDRAM_BANK_SIZE
 #define PHYS_SDRAM_2            MEMORY_BASE_ADDRESS2 /* SDRAM Bank #2 */
 #define PHYS_SDRAM_2_SIZE       SDRAM_BANK_SIZE
 
-#define CFG_FLASH_BASE		0x80000000
+#define CFG_FLASH_BASE			0x80000000
 
 /*-----------------------------------------------------------------------
  * FLASH and environment organization
  */
-#define CONFIG_MX_LV640EB		/* MX29LV640EB */
-//#define CONFIG_AMD_LV800		/* AM29LV800BB */
+#define CONFIG_MX_LV640EB					/* MX29LV640EB */
+//#define CONFIG_AMD_LV800					/* AM29LV800BB */
 
-#define CFG_MAX_FLASH_BANKS	1	/* max number of memory banks */
-
+#define CFG_MAX_FLASH_BANKS		1			/* max number of memory banks */
+	
 #if	defined(CONFIG_MX_LV640EB)
-#define CFG_MAX_FLASH_SECT	135
-#define PHYS_FLASH_SIZE		0x800000	/* 8MB */
+#define CFG_MAX_FLASH_SECT		135
+#define PHYS_FLASH_SIZE			0x800000	/* 8MB */
 #elif	defined(CONFIG_AMD_LV800)
-#define CFG_MAX_FLASH_SECT	19
-#define PHYS_FLASH_SIZE		0x100000	/* 1MB */
+#define CFG_MAX_FLASH_SECT		19
+#define PHYS_FLASH_SIZE			0x100000	/* 1MB */
 #else
-#define CFG_MAX_FLASH_SECT	512
-#define PHYS_FLASH_SIZE		0x100000	/* 1MB */
+#define CFG_MAX_FLASH_SECT		512
+#define PHYS_FLASH_SIZE			0x100000	/* 1MB */
 #endif
 
 #define CFG_FLASH_LEGACY_512Kx16
@@ -533,54 +533,54 @@
 #define CFG_FLASH_ERASE_TOUT	(5*CFG_HZ) /* Timeout for Flash Erase */
 #define CFG_FLASH_WRITE_TOUT	(5*CFG_HZ) /* Timeout for Flash Write */
 
-#define CFG_ENV_ADDR		0
-#define CFG_ENV_SIZE		0x4000	/* Total Size of Environment Sector */
+#define CFG_ENV_ADDR			0
+#define CFG_ENV_SIZE			0x4000	/* Total Size of Environment Sector */
 
 /*
  * SMDKC110 board specific data
  */
 
-#define CONFIG_IDENT_STRING	" for x210"
+#define CONFIG_IDENT_STRING		"for x210"
 
 /* total memory required by uboot */
-#define CFG_UBOOT_SIZE		(2*1024*1024)
+#define CFG_UBOOT_SIZE			(2*1024*1024)
 
  /* base address for uboot */
 #ifdef CONFIG_ENABLE_MMU
-#define CFG_UBOOT_BASE		0xc3e00000
+#define CFG_UBOOT_BASE			0xc3e00000
 #else
-#define CFG_UBOOT_BASE		0x33e00000  /*yan*/
-//#define CFG_UBOOT_BASE		0x23e00000  /*yan*/
+#define CFG_UBOOT_BASE			0x33e00000  	/*yan*/
+//#define CFG_UBOOT_BASE		0x23e00000  	/*yan*/
 #endif
 
-#define CFG_PHY_UBOOT_BASE	MEMORY_BASE_ADDRESS + 0x3e00000
-#define CFG_PHY_KERNEL_BASE	MEMORY_BASE_ADDRESS + 0x8000
+#define CFG_PHY_UBOOT_BASE		MEMORY_BASE_ADDRESS + 0x3e00000
+#define CFG_PHY_KERNEL_BASE		MEMORY_BASE_ADDRESS + 0x8000
 
-#define CFG_ENV_OFFSET		0x0007C000
+#define CFG_ENV_OFFSET			0x0007C000
 
 /* nand copy size from nand to DRAM.*/
-#define	COPY_BL2_SIZE		0x80000
+#define	COPY_BL2_SIZE			0x80000
 
 /* NAND configuration */
 #define CFG_MAX_NAND_DEVICE     1
 #define CFG_NAND_BASE           (0xE7200000)
 #define NAND_MAX_CHIPS          1
 
-#define NAND_DISABLE_CE()	(NFCONT_REG |= (1 << 1))
-#define NAND_ENABLE_CE()	(NFCONT_REG &= ~(1 << 1))
-#define NF_TRANSRnB()		do { while(!(NFSTAT_REG & (1 << 0))); } while(0)
+#define NAND_DISABLE_CE()		(NFCONT_REG |= (1 << 1))
+#define NAND_ENABLE_CE()		(NFCONT_REG &= ~(1 << 1))
+#define NF_TRANSRnB()			do { while(!(NFSTAT_REG & (1 << 0))); } while(0)
 
-#define CFG_NAND_SKIP_BAD_DOT_I	1  /* ".i" read skips bad blocks   */
+#define CFG_NAND_SKIP_BAD_DOT_I	1  		/* ".i" read skips bad blocks   */
 #define	CFG_NAND_WP		1
-#define CFG_NAND_YAFFS_WRITE	1  /* support yaffs write */
+#define CFG_NAND_YAFFS_WRITE	1  		/* support yaffs write */
 
 #define CFG_NAND_HWECC
 #define CONFIG_NAND_BL1_8BIT_ECC
 #undef	CFG_NAND_FLASH_BBT
 
 /* IROM specific data */
-#define SDMMC_BLK_SIZE        (0xD003A500)
-#define COPY_SDMMC_TO_MEM     (0xD003E008)
+#define SDMMC_BLK_SIZE        	(0xD003A500)
+#define COPY_SDMMC_TO_MEM     	(0xD003E008)
 
 /* SD/MMC configuration */
 #define CONFIG_MMC
@@ -593,7 +593,7 @@
 //#define USE_MMC0_8BIT //lqm added for test
 #define USE_MMC2
 //#define USE_MMC2_8BIT
-#define MMC_MAX_CHANNEL		4
+#define MMC_MAX_CHANNEL			4
 
 /*
  * SD/MMC detection takes a little long time
@@ -601,31 +601,31 @@
  */
 #undef	CONFIG_NO_SDMMC_DETECTION
 
-#define CONFIG_MTDPARTITION	"80000 400000 3000000"
+#define CONFIG_MTDPARTITION		"80000 400000 3000000"
 
 /* OneNAND configuration */
-#define CFG_ONENAND_BASE 	(0xB0000000)
+#define CFG_ONENAND_BASE 		(0xB0000000)
 #define CFG_MAX_ONENAND_DEVICE	1
 
 #define CONFIG_BOOT_ONENAND_IROM
 //#define CONFIG_NAND
 //#define CONFIG_BOOT_NAND
 //#define CONFIG_ONENAND
-#define ONENAND_REG_DBS_DFS_WIDTH 	(0x160)
+#define ONENAND_REG_DBS_DFS_WIDTH 		(0x160)
 #define ONENAND_REG_FLASH_AUX_CNTRL     (0x300)
 
-#define GPNCON_OFFSET		0x830
-#define GPNDAT_OFFSET		0x834
-#define GPNPUD_OFFSET		0x838
+#define GPNCON_OFFSET			0x830
+#define GPNDAT_OFFSET			0x834
+#define GPNPUD_OFFSET			0x838
 
 #define CFG_ENV_IS_IN_AUTO
 
 /* Fastboot variables */
 #define CFG_FASTBOOT_TRANSFER_BUFFER		(0x3E000000)//(0x40000000)
 #define CFG_FASTBOOT_TRANSFER_BUFFER_SIZE	(0x11000000)   /* 272MB */
-#define CFG_FASTBOOT_ADDR_KERNEL		(0xC0008000)
-#define CFG_FASTBOOT_ADDR_RAMDISK		(0x30A00000)
-#define CFG_FASTBOOT_PAGESIZE			(2048)	// Page size of booting device
+#define CFG_FASTBOOT_ADDR_KERNEL			(0xC0008000)
+#define CFG_FASTBOOT_ADDR_RAMDISK			(0x30A00000)
+#define CFG_FASTBOOT_PAGESIZE				(2048)	// Page size of booting device
 #define CFG_FASTBOOT_SDMMC_BLOCKSIZE		(512)	// Block size of sdmmc
 
 /* Just one BSP type should be defined. */
@@ -636,7 +636,7 @@
 /* LCD setting */
 //#define CFG_LCD_TL2796		// for C110 - narrow LCD
 #define CFG_LCD_NONAME1			// for V210 - wide LCD
-#define CFG_LCD_FBUFFER				(0x34000000)
+#define CFG_LCD_FBUFFER						(0x34000000)
 
 #define CONFIG_BOOTDELAY	3
 #if defined(CFG_FASTBOOT_NANDBSP)
